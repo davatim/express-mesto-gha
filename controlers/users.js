@@ -42,8 +42,8 @@ module.exports.updateUserInfo = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, about },
-    { new: true, runValidators: true }
-    )
+    { new: true, runValidators: true },
+  )
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
