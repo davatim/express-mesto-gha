@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const router = require('./routes/router');
-
+const ERROR_404_NOTFOUND = 404;
 const { PORT = 3000 } = process.env;
 const app = express();
 
@@ -16,7 +16,7 @@ mongoose
 app.use(express.json());
 app.use(helmet());
 
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   req.user = {
     _id: '64ad5f119f2b7f94f6d49bb8',
   };
@@ -25,8 +25,8 @@ app.use((req, res, next) => {
 });
 
 app.use(router);
-app.use('/', (req, res) => {
-  res.status(404).send({ message: 'Страница не найдена' });
+app.use('/', (_req, res) => {
+  res.status(ERROR_404_NOTFOUND).send({ message: 'Страница не найдена' });
 });
 
 app.listen(PORT, () => {

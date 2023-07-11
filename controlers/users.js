@@ -4,8 +4,10 @@ const User = require('../models/user');
 const ERROR_IN_REQUATION = 400;
 const ERROR_404_NOTFOUND = 404;
 const ERROR_505_DEFALT = 500;
+const INFO_201_SEC_REC = 201;
+const INFO_200_SEC_SEND = 200;
 
-module.exports.getUser = (_req, res) => {
+module.exports.getUsers = (_req, res) => {
   User.find({})
     .then((user) => res.send(user))
     .catch(() => res
@@ -44,7 +46,7 @@ module.exports.updateUserInfo = (req, res) => {
     { name, about },
     { new: true, runValidators: true },
   )
-    .then((user) => res.status(200).send(user))
+    .then((user) => res.status(INFO_200_SEC_SEND).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res
@@ -61,7 +63,7 @@ module.exports.updateUserInfo = (req, res) => {
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
-    .then((user) => res.status(201).send(user))
+    .then((user) => res.status(INFO_201_SEC_REC).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res
@@ -77,8 +79,8 @@ module.exports.createUser = (req, res) => {
 
 module.exports.updateAvatar = (req, res) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
-    .then((user) => res.status(200).send(user))
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
+    .then((user) => res.status(INFO_200_SEC_SEND).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res
