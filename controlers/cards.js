@@ -8,8 +8,7 @@ const ERROR_505_DEFALT = 500;
 module.exports.getCards = (_req, res) => {
   Card.find({})
     .then((cards) => res.send(cards))
-    .catch(() =>
-      res
+    .catch(() => res
         .status(ERROR_505_DEFALT)
         .send({ message: 'На сервере произошла ошибка' })
     );
