@@ -10,9 +10,8 @@ module.exports.getCards = (_req, res) => {
     .then((cards) => res.send(cards))
     .catch(() => res
       .status(ERROR_505_DEFALT)
-      .send({ message: 'На сервере произошла ошибка' })
-      );
-};
+      .send({ message: 'На сервере произошла ошибка' }));
+    };
 
 module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
@@ -56,8 +55,7 @@ module.exports.likedCard = (req, res) => {
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true, runValidators: true }
-  )
+    { new: true, runValidators: true })
     .then((card) => {
       if (!card) {
         res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не найдена' });
@@ -83,8 +81,7 @@ module.exports.dislikedCard = (req, res) => {
   Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: req.user._id } },
-    { new: true }
-  )
+    { new: true })
     .then((card) => {
       if (!card) {
         res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не найдена' });

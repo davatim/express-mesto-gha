@@ -8,11 +8,9 @@ const ERROR_505_DEFALT = 500;
 module.exports.getUser = (_req, res) => {
   User.find({})
     .then((user) => res.send(user))
-    .catch(() =>
-      res
+    .catch(() => res
         .status(ERROR_505_DEFALT)
-        .send({ message: 'На сервере произошла ошибка' })
-    );
+        .send({ message: 'На сервере произошла ошибка' }));
 };
 
 module.exports.getUserById = (req, res) => {
@@ -44,8 +42,7 @@ module.exports.updateUserInfo = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, about },
-    { new: true, runValidators: true }
-  )
+    { new: true, runValidators: true })
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
