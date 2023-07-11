@@ -9,9 +9,8 @@ module.exports.getCards = (_req, res) => {
   Card.find({})
     .then((cards) => res.send(cards))
     .catch(() => res
-        .status(ERROR_505_DEFALT)
-        .send({ message: 'На сервере произошла ошибка' })
-    );
+      .status(ERROR_505_DEFALT)
+      .send({ message: 'На сервере произошла ошибка' }));
 };
 
 module.exports.createCard = (req, res) => {
