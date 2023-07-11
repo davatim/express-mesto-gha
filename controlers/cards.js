@@ -4,6 +4,8 @@ const Card = require('../models/card');
 const ERROR_IN_REQUATION = 400;
 const ERROR_404_NOTFOUND = 404;
 const ERROR_505_DEFALT = 500;
+const INFO_200_SEC_SEND = 200;
+const INFO_201_SEC_REC = 201;
 
 module.exports.getCards = (_req, res) => {
   Card.find({})
@@ -16,7 +18,7 @@ module.exports.getCards = (_req, res) => {
 module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.status(201).send(card))
+    .then((card) => res.status(INFO_201_SEC_REC).send(card))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res
@@ -34,7 +36,7 @@ module.exports.deleteCard = (req, res) => {
   const { cardId } = req.params;
   Card.findByIdAndRemove(cardId)
     .orFail()
-    .then(() => res.status(200).send({ message: 'Карточка удалена' }))
+    .then(() => res.status(INFO_200_SEC_SEND).send({ message: 'Карточка удалена' }))
     .catch((err) => {
       if (err.name === 'CastError') {
         res
@@ -62,7 +64,7 @@ module.exports.likedCard = (req, res) => {
         res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не найдена' });
         return;
       }
-      res.status(200).send({ message: 'Карточка понравилась' });
+      res.status(INFO_200_SEC_SEND).send({ message: 'Карточка понравилась' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -89,7 +91,7 @@ module.exports.dislikedCard = (req, res) => {
         res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не найдена' });
         return;
       }
-      res.status(200).send({ message: 'Карточка не понравилась' });
+      res.status(INFO_200_SEC_SEND).send({ message: 'Карточка не понравилась' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
