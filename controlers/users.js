@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const User = require("../models/user");
+const mongoose = require('mongoose');
+const User = require('../models/user');
 
 const ERROR_IN_REQUATION = 400;
 const ERROR_404_NOTFOUND = 404;
@@ -11,7 +11,7 @@ module.exports.getUser = (_req, res) => {
     .catch(() =>
       res
         .status(ERROR_505_DEFALT)
-        .send({ message: "На сервере произошла ошибка" })
+        .send({ message: 'На сервере произошла ошибка' })
     );
 };
 
@@ -21,20 +21,20 @@ module.exports.getUserById = (req, res) => {
       if (!user) {
         res
           .status(ERROR_404_NOTFOUND)
-          .send({ message: "Пользователь не найден" });
+          .send({ message: 'Пользователь не найден' });
         return;
       }
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         res
           .status(ERROR_IN_REQUATION)
-          .send({ message: "Переданы некоректные данные" });
+          .send({ message: 'Переданы некоректные данные' });
       } else {
         res
           .status(ERROR_505_DEFALT)
-          .send({ message: "На сервере произошла ошибка" });
+          .send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -51,11 +51,11 @@ module.exports.updateUserInfo = (req, res) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res
           .status(ERROR_IN_REQUATION)
-          .send({ message: "Переданны некоректные данные" });
+          .send({ message: 'Переданны некоректные данные' });
       } else {
         res
           .status(ERROR_505_DEFALT)
-          .send({ message: "На сервере произошла ошибка" });
+          .send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -68,11 +68,11 @@ module.exports.createUser = (req, res) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res
           .status(ERROR_IN_REQUATION)
-          .send({ message: "Переданны некоректные данные" });
+          .send({ message: 'Переданны некоректные данные' });
       } else {
         res
           .status(ERROR_505_DEFALT)
-          .send({ message: "На сервере произошла ошибка" });
+          .send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -85,11 +85,11 @@ module.exports.updateAvatar = (req, res) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res
           .status(ERROR_IN_REQUATION)
-          .send({ message: "Переданны некоректные данные" });
+          .send({ message: 'Переданны некоректные данные' });
       } else {
         res
           .status(ERROR_505_DEFALT)
-          .send({ message: "На сервере произошла ошибка" });
+          .send({ message: 'На сервере произошла ошибка' });
       }
     });
 };

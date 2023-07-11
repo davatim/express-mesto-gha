@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Card = require("../models/card");
+const mongoose = require('mongoose');
+const Card = require('../models/card');
 // Статусы и значения
 const ERROR_IN_REQUATION = 400;
 const ERROR_404_NOTFOUND = 404;
@@ -11,7 +11,7 @@ module.exports.getCards = (_req, res) => {
     .catch(() =>
       res
         .status(ERROR_505_DEFALT)
-        .send({ message: "На сервере произошла ошибка" })
+        .send({ message: 'На сервере произошла ошибка' })
     );
 };
 
@@ -23,11 +23,11 @@ module.exports.createCard = (req, res) => {
       if (err instanceof mongoose.Error.ValidationError) {
         res
           .status(ERROR_IN_REQUATION)
-          .send({ message: "Переданны некоректные данные", stack: err.stack });
+          .send({ message: 'Переданны некоректные данные', stack: err.stack });
       } else {
         res
           .status(ERROR_505_DEFALT)
-          .send({ message: "На сервере произошла ошибка" });
+          .send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -36,18 +36,18 @@ module.exports.deleteCard = (req, res) => {
   const { cardId } = req.params;
   Card.findByIdAndRemove(cardId)
     .orFail()
-    .then(() => res.status(200).send({ message: "Карточка удалена" }))
+    .then(() => res.status(200).send({ message: 'Карточка удалена' }))
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         res
           .status(ERROR_IN_REQUATION)
-          .send({ message: "Переданы некоректные данные" });
-      } else if (err.name === "DocumentNotFoundError") {
-        res.status(ERROR_404_NOTFOUND).send({ message: "Карточка не найдена" });
+          .send({ message: 'Переданы некоректные данные' });
+      } else if (err.name === 'DocumentNotFoundError') {
+        res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не найдена' });
       } else {
         res
           .status(ERROR_505_DEFALT)
-          .send({ message: "На сервере произошла ошибка" });
+          .send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -61,20 +61,20 @@ module.exports.likedCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        res.status(ERROR_404_NOTFOUND).send({ message: "Карточка не найдена" });
+        res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не найдена' });
         return;
       }
-      res.status(200).send({ message: "Карточка понравилась" });
+      res.status(200).send({ message: 'Карточка понравилась' });
     })
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         res
           .status(ERROR_IN_REQUATION)
-          .send({ message: "Переданы некоректные данные" });
+          .send({ message: 'Переданы некоректные данные' });
       } else {
         res
           .status(ERROR_505_DEFALT)
-          .send({ message: "На сервере произошла ошибка" });
+          .send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
@@ -88,20 +88,20 @@ module.exports.dislikedCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        res.status(ERROR_404_NOTFOUND).send({ message: "Карточка не найдена" });
+        res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не найдена' });
         return;
       }
-      res.status(200).send({ message: "Карточка не понравилась" });
+      res.status(200).send({ message: 'Карточка не понравилась' });
     })
     .catch((err) => {
-      if (err.name === "CastError") {
+      if (err.name === 'CastError') {
         res
           .status(ERROR_IN_REQUATION)
-          .send({ message: "Переданы некоректные данные" });
+          .send({ message: 'Переданы некоректные данные' });
       } else {
         res
           .status(ERROR_505_DEFALT)
-          .send({ message: "На сервере произошла ошибка" });
+          .send({ message: 'На сервере произошла ошибка' });
       }
     });
 };
