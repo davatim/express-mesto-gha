@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+
 const INFO_200_SEC_SEND = 200;
 const INFO_201_SEC_REC = 201;
 const ERROR_IN_REQUATION = 400;
