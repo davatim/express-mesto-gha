@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
+
 const INFO_200_SEC_SEND = 200;
 const INFO_201_SEC_REC = 201;
 const ERROR_IN_REQUATION = 400;
