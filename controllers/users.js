@@ -6,17 +6,16 @@ const INFO_200_SEC_SEND = 200;
 const INFO_201_SEC_REC = 201;
 const ERROR_IN_REQUATION = 400;
 const ANAUTHORUZED_REQUEST_401 = 401;
-const ERROR_403_PERMISSION = 403;
+// const ERROR_403_PERMISSION = 403;
 const ERROR_404_NOTFOUND = 404;
 const CODE_CONFLICT = 409;
-const ERROR_505_DEFALT = 500;
+// const ERROR_505_DEFALT = 500;
 
 module.exports.getUser = (req, res, next) => {
   User.find({})
     .then((user) => res.send(user))
     .catch(next);
 };
-
 module.exports.getUserById = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)

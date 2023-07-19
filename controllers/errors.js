@@ -7,7 +7,6 @@ const ERROR_404_NOTFOUND = 404;
 const CODE_CONFLICT = 409;
 const ERROR_505_DEFALT = 500;
 module.exports = {
-  tUrl,
   INFO_200_SEC_SEND,
   INFO_201_SEC_REC,
   ERROR_IN_REQUATION,
