@@ -58,7 +58,7 @@ module.exports.updateUserInfo = (req, res, next) => {
     .then((user) => res.status(INFO_200_SEC_SEND).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new ERROR_IN_REQUATION( 'Переданны некорректные данные на сервер' ));
+        return next(new ERROR_IN_REQUATION('Переданны некорректные данные на сервер'));
       } else {
         return next(err);
       }
@@ -87,9 +87,9 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.code === 11000) {
-        return next(new CODE_CONFLICT( 'Данный e-mail уже зарегистрирован' ));
+        return next(new CODE_CONFLICT('Данный e-mail уже зарегистрирован'));
       } else if (err instanceof mongoose.Error.ValidationError) {
-        return next(new ERROR_IN_REQUATION( 'Переданны неверные данные' ));
+        return next(new ERROR_IN_REQUATION('Переданны неверные данные'));
       } else {
         return next(err);
       }
@@ -105,12 +105,12 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       // Хэш
       if (!user) {
-        return next(new ANAUTHORUZED_REQUEST_401( 'Неправильная почта или пароль' ));
+        return next(new ANAUTHORUZED_REQUEST_401('Неправильная почта или пароль'));
       }
       return bcrypt.compare(password, user.password)
         .then((isEqual) => {
           if (!isEqual) {
-            return next(new ANAUTHORUZED_REQUEST_401( 'Неправильная почта или пароль' ));
+            return next(new ANAUTHORUZED_REQUEST_401('Неправильная почта или пароль'));
           }
           const token = jwt.sign({ _id: user._id }, 'super-secret-kei', { expiresIn: '7d' });
           return res.status(INFO_200_SEC_SEND).send({ token });
@@ -137,7 +137,7 @@ module.exports.updateAvatar = (req, res, next) => {
     .then((user) => res.status(INFO_200_SEC_SEND).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new ERROR_IN_REQUATION( 'Переданны некорректные данные на сервер' ));
+        return next(new ERROR_IN_REQUATION('Переданны некорректные данные на сервер'));
       } else {
         return next(err);
       }
