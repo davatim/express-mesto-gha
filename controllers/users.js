@@ -41,7 +41,7 @@ module.exports.getUserById = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
+        return next(new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else {
         return next(err);
       }
