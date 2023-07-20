@@ -22,13 +22,13 @@ app.use(helmet());
 
 app.use(router);
 
+app.use('/', (_req, res) => {
+  res.status(ERROR_404_NOTFOUND).send({ message: 'Данная страница не найдена' });
+});
+
 app.use(errors());
 
 app.use(error500);
-
-app.use('/', (req, res) => {
-  res.status(ERROR_404_NOTFOUND).send({ message: 'Данная страница не найдена' });
-});
 
 app.listen(PORT, () => {
   console.log('Server started on port 3000');
