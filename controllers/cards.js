@@ -28,7 +28,7 @@ module.exports.createCard = (req, res, next) => {
     .then((card) => res.status(INFO_201_SEC_REC).send(card))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
+        return next(new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else {
         return next(err);
       }
@@ -45,16 +45,16 @@ module.exports.deleteCard = (req, res, next) => {
       if (owner === user) {
         return Card.deleteOne(card)
           .then(() => {
-            return next(new INFO_200_SEC_SEND( 'Карточка с данными удалена' ));
+            return next(new INFO_200_SEC_SEND('Карточка с данными удалена'));
           });
       }
-      return next(new ERROR_403_PERMISSION( 'У вас нет прав для этого' ));
+      return next(new ERROR_403_PERMISSION('У вас нет прав для этого'));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next (new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
+        return next (new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else if (err.name === 'DocumentNotFoundError') {
-        return next(new ERROR_404_NOTFOUND( 'Карточка не была найдена' ));
+        return next(new ERROR_404_NOTFOUND('Карточка не была найдена'));
       } else {
         return next(err);
       }
@@ -70,13 +70,13 @@ module.exports.likeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        return next(new ERROR_404_NOTFOUND( 'Карточка не была найдена' ));
+        return next(new ERROR_404_NOTFOUND('Карточка не была найдена'));
       }
       res.status(INFO_200_SEC_SEND).send({ message: 'Карточка нравится' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
+        return next(new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else {
         return next(err);
       }
@@ -92,13 +92,13 @@ module.exports.dislikeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        return next(new ERROR_404_NOTFOUND( 'Карточка не была найдена' ));
+        return next(new ERROR_404_NOTFOUND('Карточка не была найдена'));
       }
       res.status(INFO_200_SEC_SEND).send({ message: 'Карточка не нравится' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
+        return next(new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else {
         return next(err);
       }
