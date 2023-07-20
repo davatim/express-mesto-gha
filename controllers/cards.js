@@ -30,7 +30,7 @@ module.exports.createCard = (req, res, next) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else {
-        return next(err);
+        next(err);
       }
     });
 };
@@ -57,7 +57,7 @@ module.exports.deleteCard = (req, res, next) => {
       } else if (err.name === 'DocumentNotFoundError') {
         return next(new ERROR_404_NOTFOUND('Карточка не была найдена'));
       } else {
-        return next(err);
+        next(err);
       }
     });
 };
@@ -79,7 +79,7 @@ module.exports.likeCard = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else {
-        return next(err);
+        next(err);
       }
     });
 };
@@ -101,7 +101,7 @@ module.exports.dislikeCard = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else {
-        return next(err);
+        next(err);
       }
     });
 };

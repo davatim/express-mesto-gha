@@ -43,7 +43,7 @@ module.exports.getUserById = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else {
-        return next(err);
+        next(err);
       }
     });
 };
@@ -60,7 +60,7 @@ module.exports.updateUserInfo = (req, res, next) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new ERROR_IN_REQUATION('Переданны некорректные данные на сервер'));
       } else {
-        return next(err);
+        next(err);
       }
     });
 };
@@ -91,7 +91,7 @@ module.exports.createUser = (req, res, next) => {
       } else if (err instanceof mongoose.Error.ValidationError) {
         return next(new ERROR_IN_REQUATION('Переданны неверные данные'));
       } else {
-        return next(err);
+        next(err);
       }
     });
 };
@@ -139,7 +139,7 @@ module.exports.updateAvatar = (req, res, next) => {
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new ERROR_IN_REQUATION('Переданны некорректные данные на сервер'));
       } else {
-        return next(err);
+        next(err);
       }
     });
 };
