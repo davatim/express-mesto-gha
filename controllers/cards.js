@@ -43,8 +43,7 @@ module.exports.deleteCard = (req, res, next) => {
       const user = req.user._id.toString();
       if (owner === user) {
         return Card.deleteOne(card)
-          .then(() =>
-            res.status(INFO_200_SEC_SEND).send({ message: 'Карточка с данными удалена' }));
+          .then(() => res.status(INFO_200_SEC_SEND).send({ message: 'Карточка с данными удалена' }));
       }
       return next(new ERROR_403_PERMISSION('У вас нет прав для этого'));
     })
