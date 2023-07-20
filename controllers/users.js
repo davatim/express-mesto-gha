@@ -22,9 +22,9 @@ module.exports.getUserById = (req, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        next(res.status(ERROR_404_NOTFOUND).send({ message: 'Пользователь не найден на сервере' }));
+        return next(res.status(ERROR_404_NOTFOUND).send({ message: 'Пользователь не найден на сервере' }));
       }
-      res.status(INFO_200_SEC_SEND).send({
+      return res.status(INFO_200_SEC_SEND).send({
         _id: user._id,
         name: user.name,
         about: user.about,
@@ -34,9 +34,9 @@ module.exports.getUserById = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(res.status(ERROR_IN_REQUATION).send({ message: 'Переданы некорректные данные на сервер' }));
+        return next(res.status(ERROR_IN_REQUATION).send({ message: 'Переданы некорректные данные на сервер' }));
       } else {
-        next(err);
+        return next(err);
       }
     });
 };
@@ -51,9 +51,9 @@ module.exports.updateUserInfo = (req, res, next) => {
     .then((user) => res.status(INFO_200_SEC_SEND).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        res.status(ERROR_IN_REQUATION).send({ message: 'Переданны некорректные данные на сервер' });
+        return res.status(ERROR_IN_REQUATION).send({ message: 'Переданны некорректные данные на сервер' });
       } else {
-        next(err);
+        return next(err);
       }
     });
 };
@@ -80,11 +80,11 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.code === 11000) {
-        res.status(CODE_CONFLICT).send({ message: 'Данный e-mail уже зарегистрирован' });
+        return res.status(CODE_CONFLICT).send({ message: 'Данный e-mail уже зарегистрирован' });
       } else if (err instanceof mongoose.Error.ValidationError) {
-        res.status(ERROR_IN_REQUATION).send({ message: 'Переданны неверные данные' });
+        return res.status(ERROR_IN_REQUATION).send({ message: 'Переданны неверные данные' });
       } else {
-        next(err);
+        return next(err);
       }
     });
 };
@@ -98,12 +98,12 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       // Хэш
       if (!user) {
-        next(res.status(ANAUTHORUZED_REQUEST_401).send({ message: 'Неправильная почта или пароль' }));
+        return next(res.status(ANAUTHORUZED_REQUEST_401).send({ message: 'Неправильная почта или пароль' }));
       }
       return bcrypt.compare(password, user.password)
         .then((isEqual) => {
           if (!isEqual) {
-            next(res.status(ANAUTHORUZED_REQUEST_401).send({ message: 'Неправильная почта или пароль' }));
+            return next(res.status(ANAUTHORUZED_REQUEST_401).send({ message: 'Неправильная почта или пароль' }));
           }
           const token = jwt.sign({ _id: user._id }, 'super-secret-kei', { expiresIn: '7d' });
           return res.status(INFO_200_SEC_SEND).send({ token });
@@ -130,9 +130,9 @@ module.exports.updateAvatar = (req, res, next) => {
     .then((user) => res.status(INFO_200_SEC_SEND).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        res.status(ERROR_IN_REQUATION).send({ message: 'Переданны некорректные данные на сервер' });
+        return res.status(ERROR_IN_REQUATION).send({ message: 'Переданны некорректные данные на сервер' });
       } else {
-        next(err);
+        return next(err);
       }
     });
 };
