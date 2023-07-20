@@ -89,7 +89,7 @@ module.exports.createUser = (req, res, next) => {
       if (err.code === 11000) {
         return next(new CODE_CONFLICT('Данный e-mail уже зарегистрирован'));
       } else if (err instanceof mongoose.Error.ValidationError) {
-        return next(new ERROR_IN_REQUATION('Переданны неверные данные'));
+        next(new ERROR_IN_REQUATION('Переданны неверные данные'));
       } else {
         next(err);
       }

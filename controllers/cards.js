@@ -55,7 +55,7 @@ module.exports.deleteCard = (req, res, next) => {
       if (err.name === 'CastError') {
         return next (new ERROR_IN_REQUATION('Переданы некорректные данные на сервер'));
       } else if (err.name === 'DocumentNotFoundError') {
-        return next(new ERROR_404_NOTFOUND('Карточка не была найдена'));
+        next(new ERROR_404_NOTFOUND('Карточка не была найдена'));
       } else {
         next(err);
       }
