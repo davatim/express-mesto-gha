@@ -1,12 +1,18 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
 
+const {
+  ERROR_IN_REQUATION,
+  ERROR_403_PERMISSION,
+  ERROR_404_NOTFOUND,
+} = require('../utils/errors/errors');
+
 const INFO_200_SEC_SEND = 200;
 const INFO_201_SEC_REC = 201;
-const ERROR_IN_REQUATION = 400;
+// const ERROR_IN_REQUATION = 400;
 // const ANAUTHORUZED_REQUEST_401 = 401;
-const ERROR_403_PERMISSION = 403;
-const ERROR_404_NOTFOUND = 404;
+// const ERROR_403_PERMISSION = 403;
+// const ERROR_404_NOTFOUND = 404;
 // const CODE_CONFLICT = 409;
 // const ERROR_505_DEFALT = 500;
 
@@ -22,9 +28,9 @@ module.exports.createCard = (req, res, next) => {
     .then((card) => res.status(INFO_201_SEC_REC).send(card))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        res.status(ERROR_IN_REQUATION).send({ message: 'Переданы некорректные данные на сервер', stack: err.stack });
+        return next(new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
       } else {
-        next(err);
+        return next(err);
       }
     });
 };
@@ -39,18 +45,18 @@ module.exports.deleteCard = (req, res, next) => {
       if (owner === user) {
         return Card.deleteOne(card)
           .then(() => {
-            res.status(INFO_200_SEC_SEND).send({ message: 'Карточка с данными удалена' });
+            return next(new INFO_200_SEC_SEND( 'Карточка с данными удалена' ));
           });
       }
-      return next(res.status(ERROR_403_PERMISSION).send({ message: 'У вас нет прав для этого' }));
+      return next(new ERROR_403_PERMISSION( 'У вас нет прав для этого' ));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(ERROR_IN_REQUATION).send({ message: 'Переданы некорректные данные на сервер' });
+        return next (new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
       } else if (err.name === 'DocumentNotFoundError') {
-        res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не была найдена' });
+        return next(new ERROR_404_NOTFOUND( 'Карточка не была найдена' ));
       } else {
-        next(err);
+        return next(err);
       }
     });
 };
@@ -64,16 +70,15 @@ module.exports.likeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не была найдена' });
-        return;
+        return next(new ERROR_404_NOTFOUND( 'Карточка не была найдена' ));
       }
       res.status(INFO_200_SEC_SEND).send({ message: 'Карточка нравится' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(ERROR_IN_REQUATION).send({ message: 'Переданы некорректные данные на сервер' });
+        return next(new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
       } else {
-        next(err);
+        return next(err);
       }
     });
 };
@@ -87,16 +92,15 @@ module.exports.dislikeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        res.status(ERROR_404_NOTFOUND).send({ message: 'Карточка не была найдена' });
-        return;
+        return next(new ERROR_404_NOTFOUND( 'Карточка не была найдена' ));
       }
       res.status(INFO_200_SEC_SEND).send({ message: 'Карточка не нравится' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(ERROR_IN_REQUATION).send({ message: 'Переданы некорректные данные на сервер' });
+        return next(new ERROR_IN_REQUATION( 'Переданы некорректные данные на сервер' ));
       } else {
-        next(err);
+        return next(err);
       }
     });
 };
